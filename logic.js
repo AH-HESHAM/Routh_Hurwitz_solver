@@ -31,17 +31,26 @@ function drawFields(){
     var divForAll = document.createElement("div");
     divForAll.className = "divCoeff"
     divForAll.id = "divCoeff"
+
+    var lb = document.createElement("label");
+    lb.innerHTML = "1 + G(s)H(s) = ";
+
+    divForAll.appendChild(lb)
     // add fields
     for(var i = 0 ; i < order ; i++)
     {
         // add lable for each degree
-        var lb = document.createElement("label");
-        lb.innerHTML = "s^"+(order-1-i);
-        var coef = document.createElement("input")
+        if(order-1-i != 0)
+        {
+            var lb = document.createElement("label");
+            lb.innerHTML = "s"+ (order-1-i).toString().sup() + " + ";
+        }
         // add input field for each degree
+        var coef = document.createElement("input")
         coef.className = "coeff"
         coef.id = "s"+(order-1-i)
         divForAll.appendChild(coef)
+        if(order-1-i != 0)
         divForAll.appendChild(lb)
         
     }
@@ -63,23 +72,46 @@ function solve(){
     // // 0    -> stable
     var ans = document.createElement("label");
     ans.className = "ans"
-    var n = calc()
+    var code = calc()
     console.log(arr)
-    if(n === 0)
+    if(code === 0)
     {
         ans.innerHTML = "System is stable"
     }
-    else if(n > 0)
+    else if(code > 0)
     {
-        ans.innerHTML = "System is unstable and the number of unstable roots = " + n
+        ans.innerHTML = "System is unstable and the number of unstable roots = " + code
     }
-    else if(n === -1)
+    else if(code === -1)
     {
         swap()
         calc()
     }
     var c = document.getElementById("divCoeff")
     c.appendChild(ans)
+    var matrix = document.createElement("table")
+    // matrix.className = "ans"
+    var body = document.createElement("tbody")
+    for(var i = 0 ; i < arr.length ; i++)
+    {
+        var row = document.createElement("tr")
+        var title = document.createElement("td")
+        
+        var lb = document.createElement("label");
+        lb.innerHTML = "s"+ (order-1-i).toString().sup();
+        title.appendChild(lb)
+        row.appendChild(title)
+        for(var j = 0 ; j < arr[i].length  ; j++)
+        {
+            var td = document.createElement("td")
+            td.appendChild(document.createTextNode(arr[i][j].toFixed(2)))
+            row.appendChild(td)
+        }
+        body.appendChild(row)
+        
+    }
+    matrix.appendChild(body)
+    c.appendChild(matrix)
     
 }
 

@@ -34,3 +34,11 @@ body{
     width: 100px;
     margin: 3px;
 }
+
+.ans{
+    display: block;
+}
+
+table td{
+    border: 2px solid black;
+}
